@@ -1,11 +1,10 @@
-
-
-
+import parser
 
 
 if __name__ == '__main__':
-
     # parserでオプションを受け取る
+    
+
 
     # config.jsonをテストする
 
