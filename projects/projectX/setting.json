@@ -14,7 +14,7 @@
           320
         ]
       },
-      "title-layer": {
+      "title_layer": {
         "description_type": "string",
         "height": [
           320,
@@ -25,7 +25,7 @@
           320
         ]
       },
-      "description-layer": {
+      "description_layer": {
         "description_type": "string",
         "height": [
           440,

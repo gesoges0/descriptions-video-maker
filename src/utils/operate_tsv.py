@@ -1,6 +1,7 @@
 from typing import List, Iterable, Any, Dict
 from pathlib import Path
 import csv
+from collections import OrderedDict
 
 
 def read_tsv(tsv_path: Path, read_header: bool = True) -> Iterable[List[str]]:
@@ -74,7 +75,7 @@ def get_header_from_tsv(tsv_path: Path) -> List[str]:
     return header
 
 
-def get_list_of_dict_as_dict_from_tsv(tsv_path: Path) -> List[Dict[str, str]]:
+def get_list_of_dict_from_tsv(tsv_path: Path) -> List[Dict[str, str]]:
     """
     :param tsv_path:
     :return:
@@ -83,4 +84,16 @@ def get_list_of_dict_as_dict_from_tsv(tsv_path: Path) -> List[Dict[str, str]]:
     header = get_header_from_tsv(tsv_path)
     for row in read_tsv(tsv_path, read_header=False):
         res.append({k: v for k, v in zip(header, row)})
+    return res
+
+
+def get_list_of_ordered_dict_from_tsv(tsv_path: Path) -> List[OrderedDict]:
+    """
+    :param tsv_path:
+    :return:
+    """
+    res: List[OrderedDict[str, str]] = []
+    header = get_header_from_tsv(tsv_path)
+    for row in read_tsv(tsv_path, read_header=False):
+        res.append(OrderedDict({k: v for k, v in zip(header, row)}))
     return res

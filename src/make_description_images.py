@@ -1,11 +1,13 @@
+import copy
 import json
 from typing import Dict, Any, List, Tuple, NamedTuple
-from src.utils.operate_tsv import read_tsv
+from src.utils.operate_tsv import read_tsv, get_list_of_ordered_dict_from_tsv
 from src.utils import LAYER_JSON_PATH, DESCRIPTION_TSV_PATH
 from pathlib import Path
 from dataclasses import dataclass, field
 from src.structures.project_objects import ProjectDir
 from enum import Enum
+from collections import OrderedDict
 
 
 class DescriptionType(Enum):
@@ -39,6 +41,17 @@ class Layer:
         width: int = (c1 - c0).x
         return Layer(name, c0, height, width, description_type)
 
+    def set_layer(self, layer_val: str):
+        """
+        add string to layer / add image to layer
+        :param layer_val:
+        :return:
+        """
+        if self.description_type == DescriptionType.image:
+            pass
+        elif self.description_type == DescriptionType.string:
+            pass
+
 
 @dataclass
 class DescriptionImage:
@@ -66,12 +79,22 @@ class DescriptionImage:
 
         return DescriptionImage(height, width, layers)
 
+    def set_description_to_layers(self, row_ordered_dict: OrderedDict):
+        """
+        set each row of tsv to each layer
+        :return:
+       """
+        layers_by_name: Dict[str, Layer] = {l.name: l for l in self.layers}
+        for layer_name, layer_val in row_ordered_dict.items():
+            layers_by_name[layer_name].set_layer(layer_val)
+
 
 @dataclass
-class DescriptionImageProject:
+class DescriptionImagesProject:
     project_dir: ProjectDir
     _project_name: str = None
-    _description_image: DescriptionImage = None
+    _description_image_base: DescriptionImage = None
+    _description_images: List[DescriptionImage] = field(default_factory=list)
 
     def __post_init__(self):
         self._project_name = self.project_dir.project_dir_path.name
@@ -87,14 +110,24 @@ class DescriptionImageProject:
         :return: None
         """
         json_path: Path = self.project_dir.project_json_path
-        self._description_image = DescriptionImage.generate_by_project_json(json_path)
+        self._description_image_base = DescriptionImage.generate_by_project_json(json_path)
 
-    def set_description(self) -> None:
+    def set_values(self) -> None:
         """
         read description.tsv and set description to the layers
         :return:
         """
-        pass
+        tsv_path = self.project_dir.descriptions_tsv_path
+
+        # generate base description images
+        for _ in read_tsv(tsv_path, read_header=False):
+            description_image: DescriptionImage = copy.deepcopy(self._description_image_base)
+            self._description_images.append(description_image)
+
+        # set each row value to each description image
+        for description_index, row_ordered_dict in enumerate(get_list_of_ordered_dict_from_tsv(tsv_path)):
+            self._description_images[description_index].set_description_to_layers(row_ordered_dict)
+
 
 def make_description_images(args):
     """
@@ -105,14 +138,17 @@ def make_description_images(args):
     project_path: Path = Path(f'projects/{args.project}')
 
     # initialize project object by project directory path
-    description_image_project: DescriptionImageProject\
-        = DescriptionImageProject.generate_by_project_dir_path_object(project_path)
+    description_images_project: DescriptionImagesProject\
+        = DescriptionImagesProject.generate_by_project_dir_path_object(project_path)
 
     # read setting.json and initialize a description image
-    description_image_project.initialize_description_image()
+    description_images_project.initialize_description_image()
 
-    # read descriptions.tsv and make description images
+    # read descriptions.tsv and set description images
+    description_images_project.set_values()
 
+    # make each description image
+    # description_images_project.make_images()
 
 
 
