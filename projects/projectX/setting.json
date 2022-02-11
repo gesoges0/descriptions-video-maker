@@ -1,11 +1,10 @@
 {
-  "a_layer_setting": {
+  "description_image": {
     "height": 780,
     "width": 320,
-    "layer_setting": {
-      "layer1": {
-        "name": "image-layer",
-        "function": "image",
+    "layers": {
+      "image_layer": {
+        "description_type": "image",
         "height": [
           0,
           320
@@ -15,9 +14,8 @@
           320
         ]
       },
-      "layer2": {
-        "name": "title-layer",
-        "function": "string",
+      "title-layer": {
+        "description_type": "string",
         "height": [
           320,
           440
@@ -27,9 +25,8 @@
           320
         ]
       },
-      "layer3": {
-        "name": "description-layer",
-        "function": "string",
+      "description-layer": {
+        "description_type": "string",
         "height": [
           440,
           780
