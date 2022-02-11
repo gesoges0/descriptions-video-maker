@@ -2,6 +2,7 @@ import copy
 import json
 from typing import Dict, Any, List, Tuple, NamedTuple
 from src.utils.operate_tsv import read_tsv, get_list_of_ordered_dict_from_tsv
+from src.utils.operate_json import load_json_as_dict
 from src.utils import LAYER_JSON_PATH, DESCRIPTION_TSV_PATH
 from pathlib import Path
 from dataclasses import dataclass, field
@@ -33,6 +34,8 @@ class Layer:
     height: int
     width: int
     description_type: DescriptionType
+    _image_path: Path = None
+    _string: str = None
 
     @classmethod
     def generate_by_2_coordinate(cls, name: str, c0: Coordinate, c1: Coordinate, description_type: DescriptionType):
@@ -48,34 +51,36 @@ class Layer:
         :return:
         """
         if self.description_type == DescriptionType.image:
-            pass
+            self._image_path = Path(layer_val)
         elif self.description_type == DescriptionType.string:
-            pass
+            self._string = layer_val
 
 
 @dataclass
 class DescriptionImage:
+    """
+    DescriptionImage includes Layer that is ImageLayer or StringLayer
+    """
     height: int
     width: int
     layers: List[Layer]
 
     @classmethod
     def generate_by_project_json(cls, json_path: Path):
-        with open(json_path, 'r', encoding='utf-8') as f:
-            project_dict: Dict[str, Any] = json.load(f)
-            description_image_dict: Dict[str, Any] = project_dict['description_image']
-            height = description_image_dict['height']
-            width = description_image_dict['width']
+        project_dict: Dict[str, Any] = load_json_as_dict(json_path)
+        description_image_dict: Dict[str, Any] = project_dict['description_image']
+        height = description_image_dict['height']
+        width = description_image_dict['width']
 
-            layers: List[Layer] = []
-            for layer_name, layer_setting_dict in description_image_dict['layers'].items():
-                name: str = layer_name
-                description_type: DescriptionType = getattr(DescriptionType, layer_setting_dict['description_type'])
-                y0, y1 = layer_setting_dict['height']
-                x0, x1 = layer_setting_dict['width']
-                c0, c1 = Coordinate(y=y0, x=x0), Coordinate(y=y1, x=x1)
-                layer: Layer = Layer.generate_by_2_coordinate(name, c0, c1, description_type)
-                layers.append(layer)
+        layers: List[Layer] = []
+        for layer_name, layer_setting_dict in description_image_dict['layers'].items():
+            name: str = layer_name
+            description_type: DescriptionType = getattr(DescriptionType, layer_setting_dict['description_type'])
+            y0, y1 = layer_setting_dict['height']
+            x0, x1 = layer_setting_dict['width']
+            c0, c1 = Coordinate(y=y0, x=x0), Coordinate(y=y1, x=x1)
+            layer: Layer = Layer.generate_by_2_coordinate(name, c0, c1, description_type)
+            layers.append(layer)
 
         return DescriptionImage(height, width, layers)
 
@@ -91,6 +96,10 @@ class DescriptionImage:
 
 @dataclass
 class DescriptionImagesProject:
+    """
+    DescriptionImagesProject includes DescriptionImages that is a picture configured by a few of layers.
+    This class has methods to make videos, so I don't name 'DescriptionImagesProject' , but 'DescriptionImages'.
+    """
     project_dir: ProjectDir
     _project_name: str = None
     _description_image_base: DescriptionImage = None
