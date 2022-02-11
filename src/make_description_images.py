@@ -29,6 +29,9 @@ class Coordinate(NamedTuple):
 
 @dataclass
 class Layer:
+    """
+    Layer is a piece of image that has height, width, (y0, x0), image/string
+    """
     name: str
     coordinate: Coordinate
     height: int
