@@ -39,6 +39,7 @@ class Layer:
     description_type: DescriptionType
     _image_path: Path = None
     _string: str = None
+    _img = None
 
     @classmethod
     def generate_by_2_coordinate(cls, name: str, c0: Coordinate, c1: Coordinate, description_type: DescriptionType):
@@ -57,6 +58,12 @@ class Layer:
             self._image_path = Path(layer_val)
         elif self.description_type == DescriptionType.string:
             self._string = layer_val
+
+    def set_img(self):
+        """
+        :return:
+        """
+        self._img = None
 
 
 @dataclass
@@ -95,6 +102,20 @@ class DescriptionImage:
         layers_by_name: Dict[str, Layer] = {l.name: l for l in self.layers}
         for layer_name, layer_val in row_ordered_dict.items():
             layers_by_name[layer_name].set_layer(layer_val)
+
+    def output(self):
+        """
+        output DescriptionImage
+        :return:
+        """
+        # output each layers
+        for i, layer in enumerate(self.layers):
+            layer.set_img()
+        # concatenate layers to DescriptionImage
+        # 座標と画像オブジェクトを引数とする
+        # concatenate_images()
+        # output this DescriptionImage
+        # ファイルとして出力
 
 
 @dataclass
@@ -140,6 +161,14 @@ class DescriptionImagesProject:
         for description_index, row_ordered_dict in enumerate(get_list_of_ordered_dict_from_tsv(tsv_path)):
             self._description_images[description_index].set_description_to_layers(row_ordered_dict)
 
+    def make_images(self):
+        """
+        make each DescriptionImage and output {project_name}/each
+        :return:
+        """
+        for description_image in self._description_images:
+            description_image.output()
+
 
 def make_description_images(args):
     """
@@ -160,7 +189,4 @@ def make_description_images(args):
     description_images_project.set_values()
 
     # make each description image
-    # description_images_project.make_images()
-
-
-
+    description_images_project.make_images()
