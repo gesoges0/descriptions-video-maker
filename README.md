@@ -1,6 +1,4 @@
-# yokonagashi-video-maker
-
-# Code As Vide (CAV)
+# Yokonagashi-Video As Code
 
 ## usage
 ### Make Project File
