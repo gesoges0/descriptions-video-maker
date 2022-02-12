@@ -6,12 +6,10 @@
       "image_layer": {
         "description_type": "image",
         "height": [
-          0,
-          320
+          0, 320
         ],
         "width": [
-          0,
-          320
+          0, 320
         ],
         "background_color": [
           0, 0, 0
@@ -20,26 +18,22 @@
       "title_layer": {
         "description_type": "string",
         "height": [
-          320,
-          440
+          320, 440
         ],
         "width": [
-          0,
-          320
+          0, 320
         ],
         "background_color": [
-          192, 192, 192
+          33, 33, 33
         ]
       },
       "description_layer": {
         "description_type": "string",
         "height": [
-          440,
-          780
+          440, 780
         ],
         "width": [
-          0,
-          320
+          0, 320
         ],
         "background_color": [
           0, 0, 0
