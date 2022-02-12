@@ -162,6 +162,7 @@ class DescriptionImagesProject:
     _project_name: str = None
     _description_image_base: DescriptionImage = None
     _description_images: List[DescriptionImage] = field(default_factory=list)
+    _padding: int = 1
 
     def __post_init__(self):
         self._project_name = self.project_dir.project_dir_path.name
@@ -209,6 +210,12 @@ class DescriptionImagesProject:
         concatenated_image = self._description_images[0].img
         if len(self._description_images) > 1:
             for description_image in self._description_images[1:]:
+                padding_image = get_blank_image(
+                    height=description_image.height,
+                    width=self._padding,
+                    rgb=(255, 255, 255)
+                )
+                concatenated_image = get_h_concatenate_image(concatenated_image, padding_image)
                 concatenated_image = get_h_concatenate_image(concatenated_image, description_image.img)
 
         # output concatenated image

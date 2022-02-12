@@ -71,4 +71,20 @@ tests/mock-imgs/shuden.png	Last Train	Stay overnight at the office...
 tests/mock-imgs/shuden.png	Last Train	Stay overnight at the office...
 ```
 
+#### test
+test projectX/setting.json and projectX/description.tsv
+```commandline
+pytest
+```
+
+#### make images
+```commandline
+python manage.py make-images --project projectX
+```
+
+#### make video
+```commandline
+python manage.py make-video --project projectX
+```
+
 ![output](output/projectX/concat/output.png "output")
