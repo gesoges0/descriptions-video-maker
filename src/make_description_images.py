@@ -3,7 +3,14 @@ import json
 from typing import Dict, Any, List, Tuple, NamedTuple, Union
 from src.utils.operate_tsv import read_tsv, get_list_of_ordered_dict_from_tsv
 from src.utils.operate_json import load_json_as_dict
-from src.utils.operate_img import get_blank_image, get_random_blank_image, get_synthetic_image, output_image
+from src.utils.operate_img import (
+    get_blank_image,
+    get_random_blank_image,
+    get_synthetic_image,
+    write_image,
+    get_h_concatenate_image,
+    read_image
+)
 from src.utils import LAYER_JSON_PATH, DESCRIPTION_TSV_PATH
 from pathlib import Path
 from dataclasses import dataclass, field
@@ -117,7 +124,7 @@ class DescriptionImage:
         set each row of tsv to each layer
         :return:
        """
-        layers_by_name: Dict[str, Layer] = {l.name: l for l in self.layers}
+        layers_by_name: Dict[str, Layer] = {layer.name: layer for layer in self.layers}
         for layer_name, layer_val in row_ordered_dict.items():
             layers_by_name[layer_name].set_layer(layer_val)
 
@@ -188,12 +195,19 @@ class DescriptionImagesProject:
         # each description image
         for i, description_image in enumerate(self._description_images):
             image_object = description_image.make()
-            output_image(image_object, str(self.project_dir.output_dir.each / f'{i}.png'))
+            write_image(image_object, self.project_dir.output_dir.each / f'{i}.png')
 
         # concatenate description images to one image
-        # for i, description_image in enumerate(list(self.project_dir.output_dir.each.glob('*')).sort()):
+        description_image_paths_list: List[Path] = sorted(list(self.project_dir.output_dir.each.glob('*')))
+        output_image = read_image(description_image_paths_list[0])
+        if len(description_image_paths_list) > 1:
+            for description_image_path in description_image_paths_list[1:]:
+                description_image = read_image(description_image_path)
+                output_image = get_h_concatenate_image(output_image, description_image)
 
         # output concatenated image
+        output_path = self.project_dir.output_dir.concat / 'output.png'
+        write_image(output_image, output_path)
 
 
 def make_description_images(args):
