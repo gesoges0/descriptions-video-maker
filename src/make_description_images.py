@@ -42,6 +42,7 @@ class ImageLayer:
     image_path: Path
     height: int
     width: int
+    background_color: Tuple[int, int, int]
     _img = None
 
     def __post_init__(self):
@@ -55,11 +56,12 @@ class StringLayer:
     string: str
     height: int
     width: int
+    background_color: Tuple[int, int, int]
     _img = None
 
     def __post_init__(self):
         # mock
-        self._img = get_random_blank_image(self.height, self.width)
+        self._img = get_blank_image(self.height, self.width, rgb=self.background_color)
 
 
 @dataclass
@@ -72,14 +74,15 @@ class Layer:
     height: int
     width: int
     description_type: DescriptionType
+    background_color: Tuple[int, int, int]
     _img: Union[ImageLayer, StringLayer] = None
 
     @classmethod
-    def generate_by_2_coordinate(cls, name: str, c0: Coordinate, c1: Coordinate, description_type: DescriptionType):
+    def generate_by_2_coordinate(cls, name: str, c0: Coordinate, c1: Coordinate, description_type: DescriptionType, background_color: Tuple[int, int, int]):
         name: str = name
         height: int = (c1 - c0).y
         width: int = (c1 - c0).x
-        return Layer(name, c0, height, width, description_type)
+        return Layer(name, c0, height, width, description_type, background_color)
 
     def set_layer(self, layer_val: str):
         """
@@ -88,9 +91,9 @@ class Layer:
         :return:
         """
         if self.description_type == DescriptionType.image:
-            self._img = ImageLayer(layer_val, self.height, self.width)
+            self._img = ImageLayer(layer_val, self.height, self.width, self.background_color)
         elif self.description_type == DescriptionType.string:
-            self._img = StringLayer(layer_val, self.height, self.width)
+            self._img = StringLayer(layer_val, self.height, self.width, self.background_color)
 
 
 @dataclass
@@ -117,7 +120,8 @@ class DescriptionImage:
             y0, y1 = layer_setting_dict['height']
             x0, x1 = layer_setting_dict['width']
             c0, c1 = Coordinate(y=y0, x=x0), Coordinate(y=y1, x=x1)
-            layer: Layer = Layer.generate_by_2_coordinate(name, c0, c1, description_type)
+            background_color = layer_setting_dict['background_color']
+            layer: Layer = Layer.generate_by_2_coordinate(name, c0, c1, description_type, background_color)
             layers.append(layer)
 
         return DescriptionImage(height, width, layers)

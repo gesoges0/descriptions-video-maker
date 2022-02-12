@@ -12,6 +12,9 @@
         "width": [
           0,
           320
+        ],
+        "background_color": [
+          0, 0, 0
         ]
       },
       "title_layer": {
@@ -23,6 +26,9 @@
         "width": [
           0,
           320
+        ],
+        "background_color": [
+          192, 192, 192
         ]
       },
       "description_layer": {
@@ -34,6 +40,9 @@
         "width": [
           0,
           320
+        ],
+        "background_color": [
+          0, 0, 0
         ]
       }
     }
