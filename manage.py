@@ -19,20 +19,13 @@ if __name__ == '__main__':
     parser_make_each_image.add_argument('-p', '--project', type=str, help='project name')
     parser_make_each_image.set_defaults(func=make_description_images)
 
-    # concatenate description images to one image
-    # ex: python manage.py concat-images -p projectX
-    # ex: python manage.py concat-images --project projectX --output sample.png
-    # parser_concat_images = subparsers.add_parser('concat-images', help='concatenate description images to one image')
-    # parser_concat_images.add_argument('-p', '--project', type=str, help='project name')
-    # parser_concat_images.add_argument('-o', '--output', type=str, help='output name')
-    # parser_concat_images.set_defaults(func=concatenate_images)
-
     # make video from a concatenated image
     # ex: python manage.py make-video -p projectX
     # ex: python manage.py make-video --project projectX --output sample.mp4
     # parser_make_video = subparsers.add_parser('make-video', help='make video from concatenated image')
     # parser_make_video.add_argument('-p', '--project', type=str, help='project name')
     # parser_concat_images.add_argument('-o', '--output', type=str, help='output name')
+    # parser_concat_images.add_argument('-t', '--output', default='mp4', type=str, help='output name')
     # parser_make_video.set_defaults(func=make_video)
 
     args = parser.parse_args()
