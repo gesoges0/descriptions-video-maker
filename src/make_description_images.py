@@ -1,14 +1,16 @@
 import copy
 import json
-from typing import Dict, Any, List, Tuple, NamedTuple
+from typing import Dict, Any, List, Tuple, NamedTuple, Union
 from src.utils.operate_tsv import read_tsv, get_list_of_ordered_dict_from_tsv
 from src.utils.operate_json import load_json_as_dict
+from src.utils.operate_img import get_blank_image, get_random_blank_image, get_synthetic_image, output_image
 from src.utils import LAYER_JSON_PATH, DESCRIPTION_TSV_PATH
 from pathlib import Path
 from dataclasses import dataclass, field
 from src.structures.project_objects import ProjectDir
 from enum import Enum
 from collections import OrderedDict
+from abc import ABC, abstractmethod
 
 
 class DescriptionType(Enum):
@@ -28,18 +30,40 @@ class Coordinate(NamedTuple):
 
 
 @dataclass
+class ImageLayer:
+    image_path: Path
+    height: int
+    width: int
+    _img = None
+
+    def __post_init__(self):
+        # mock
+        self._img = get_random_blank_image(self.height, self.width)
+
+
+@dataclass
+class StringLayer:
+    string: str
+    height: int
+    width: int
+    _img = None
+
+    def __post_init__(self):
+        # mock
+        self._img = get_random_blank_image(self.height, self.width)
+
+
+@dataclass
 class Layer:
     """
-    Layer is a piece of image that has height, width, (y0, x0), image/string
+    This class knows where it will be placed in DescriptionImage, because this has coordinates.
     """
     name: str
     coordinate: Coordinate
     height: int
     width: int
     description_type: DescriptionType
-    _image_path: Path = None
-    _string: str = None
-    _img = None
+    _img: Union[ImageLayer, StringLayer] = None
 
     @classmethod
     def generate_by_2_coordinate(cls, name: str, c0: Coordinate, c1: Coordinate, description_type: DescriptionType):
@@ -55,15 +79,9 @@ class Layer:
         :return:
         """
         if self.description_type == DescriptionType.image:
-            self._image_path = Path(layer_val)
+            self._img = ImageLayer(layer_val, self.height, self.width)
         elif self.description_type == DescriptionType.string:
-            self._string = layer_val
-
-    def set_img(self):
-        """
-        :return:
-        """
-        self._img = None
+            self._img = StringLayer(layer_val, self.height, self.width)
 
 
 @dataclass
@@ -103,19 +121,20 @@ class DescriptionImage:
         for layer_name, layer_val in row_ordered_dict.items():
             layers_by_name[layer_name].set_layer(layer_val)
 
-    def output(self):
+    def make(self):
         """
-        output DescriptionImage
-        :return:
+        :return: DescriptionImage
         """
-        # output each layers
-        for i, layer in enumerate(self.layers):
-            layer.set_img()
-        # concatenate layers to DescriptionImage
-        # 座標と画像オブジェクトを引数とする
-        # concatenate_images()
-        # output this DescriptionImage
-        # ファイルとして出力
+        # make frame
+        frame = get_blank_image(height=self.height, width=self.width)
+
+        # concatenate all layers to one description image
+        for layer in self.layers:
+            frame = get_synthetic_image(under_image=frame,
+                                        over_image=layer._img._img,
+                                        yx=(layer.coordinate.y, layer.coordinate.x),
+                                        )
+        return frame
 
 
 @dataclass
@@ -166,8 +185,15 @@ class DescriptionImagesProject:
         make each DescriptionImage and output {project_name}/each
         :return:
         """
-        for description_image in self._description_images:
-            description_image.output()
+        # each description image
+        for i, description_image in enumerate(self._description_images):
+            image_object = description_image.make()
+            output_image(image_object, str(self.project_dir.output_dir.each / f'{i}.png'))
+
+        # concatenate description images to one image
+        # for i, description_image in enumerate(list(self.project_dir.output_dir.each.glob('*')).sort()):
+
+        # output concatenated image
 
 
 def make_description_images(args):
@@ -176,7 +202,8 @@ def make_description_images(args):
     :return:
     """
     # set project directory path
-    project_path: Path = Path(f'projects/{args.project}')
+    project_name: str = args.project
+    project_path: Path = Path(f'projects/{project_name}')
 
     # initialize project object by project directory path
     description_images_project: DescriptionImagesProject\
