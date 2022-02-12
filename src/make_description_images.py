@@ -215,6 +215,7 @@ class DescriptionImagesProject:
                     width=self._padding,
                     rgb=(255, 255, 255)
                 )
+                # padding
                 concatenated_image = get_h_concatenate_image(concatenated_image, padding_image)
                 concatenated_image = get_h_concatenate_image(concatenated_image, description_image.img)
 
