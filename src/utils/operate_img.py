@@ -1,7 +1,8 @@
+import os.path
 import random
 import cv2
 import numpy as np
-from typing import Tuple
+from typing import Tuple, Union
 from pathlib import Path
 
 
@@ -38,7 +39,14 @@ def get_h_concatenate_image(left_image, right_image):
     return cv2.hconcat([left_image, right_image])
 
 
-def read_image(image_path: Path):
-    assert image_path.exists(), f'{image_path} does not exists'
+def read_image(image_path: Union[Path, str]):
+    if type(image_path) == Path:
+        assert image_path.exists(), f'{image_path} does not exists'
+    if type(image_path) == str:
+        assert os.path.exists(image_path), f'{image_path} does not exists'
     image = cv2.imread(str(image_path))
     return image
+
+
+def resize_image(image, height: int, width: int):
+    return cv2.resize(image, dsize=(height, width))

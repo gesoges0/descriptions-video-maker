@@ -9,7 +9,8 @@ from src.utils.operate_img import (
     get_synthetic_image,
     write_image,
     get_h_concatenate_image,
-    read_image
+    read_image,
+    resize_image
 )
 from src.utils import LAYER_JSON_PATH, DESCRIPTION_TSV_PATH
 from pathlib import Path
@@ -44,8 +45,9 @@ class ImageLayer:
     _img = None
 
     def __post_init__(self):
-        # mock
-        self._img = get_random_blank_image(self.height, self.width)
+        under_img = get_random_blank_image(self.height, self.width)
+        over_img = resize_image(read_image(self.image_path), height=self.height, width=self.width)
+        self._img = get_synthetic_image(under_image=under_img, over_image=over_img, yx=(0, 0))
 
 
 @dataclass
@@ -99,6 +101,7 @@ class DescriptionImage:
     height: int
     width: int
     layers: List[Layer]
+    _img = None
 
     @classmethod
     def generate_by_project_json(cls, json_path: Path):
@@ -141,7 +144,12 @@ class DescriptionImage:
                                         over_image=layer._img._img,
                                         yx=(layer.coordinate.y, layer.coordinate.x),
                                         )
+        self._img = frame
         return frame
+
+    @property
+    def img(self):
+        return self._img
 
 
 @dataclass
@@ -198,16 +206,14 @@ class DescriptionImagesProject:
             write_image(image_object, self.project_dir.output_dir.each / f'{i}.png')
 
         # concatenate description images to one image
-        description_image_paths_list: List[Path] = sorted(list(self.project_dir.output_dir.each.glob('*')))
-        output_image = read_image(description_image_paths_list[0])
-        if len(description_image_paths_list) > 1:
-            for description_image_path in description_image_paths_list[1:]:
-                description_image = read_image(description_image_path)
-                output_image = get_h_concatenate_image(output_image, description_image)
+        concatenated_image = self._description_images[0].img
+        if len(self._description_images) > 1:
+            for description_image in self._description_images[1:]:
+                concatenated_image = get_h_concatenate_image(concatenated_image, description_image.img)
 
         # output concatenated image
         output_path = self.project_dir.output_dir.concat / 'output.png'
-        write_image(output_image, output_path)
+        write_image(concatenated_image, output_path)
 
 
 def make_description_images(args):
