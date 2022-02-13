@@ -96,5 +96,5 @@ python manage.py make-images --project projectX
 python manage.py make-video --project projectX
 ```
 
-![output](output/projectX/video/output.gif)
+![output](output/projectX/video/output.mp4)
 
