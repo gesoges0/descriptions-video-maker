@@ -1,25 +1,20 @@
 import copy
 import json
-from typing import Dict, Any, List, Tuple, NamedTuple, Union
-from src.utils.operate_tsv import read_tsv, get_list_of_ordered_dict_from_tsv
-from src.utils.operate_json import load_json_as_dict
-from src.utils.operate_img import (
-    get_blank_image,
-    get_random_blank_image,
-    get_synthetic_image,
-    write_image,
-    get_h_concatenate_image,
-    read_image,
-    resize_image,
-    put_text_on_image,
-)
-from src.utils import LAYER_JSON_PATH, DESCRIPTION_TSV_PATH
-from pathlib import Path
-from dataclasses import dataclass, field
-from src.structures.project_objects import ProjectDir
-from enum import Enum
-from collections import OrderedDict
 from abc import ABC, abstractmethod
+from collections import OrderedDict
+from dataclasses import dataclass, field
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, NamedTuple, Tuple, Union
+
+from src.structures.project_objects import ProjectDir
+from src.utils import DESCRIPTION_TSV_PATH, LAYER_JSON_PATH
+from src.utils.operate_img import (get_blank_image, get_h_concatenate_image,
+                                   get_random_blank_image, get_synthetic_image,
+                                   put_text_on_image, read_image, resize_image,
+                                   write_image)
+from src.utils.operate_json import load_json_as_dict
+from src.utils.operate_tsv import get_list_of_ordered_dict_from_tsv, read_tsv
 
 
 class DescriptionType(Enum):

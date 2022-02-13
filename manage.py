@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
+
 from src.make_description_images import make_description_images
 from src.make_video import make_video
-
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="")

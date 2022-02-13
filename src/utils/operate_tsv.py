@@ -1,7 +1,7 @@
-from typing import List, Iterable, Any, Dict
-from pathlib import Path
 import csv
 from collections import OrderedDict
+from pathlib import Path
+from typing import Any, Dict, Iterable, List
 
 
 def read_tsv(tsv_path: Path, read_header: bool = True) -> Iterable[List[str]]:

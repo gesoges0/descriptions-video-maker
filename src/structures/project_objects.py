@@ -1,5 +1,5 @@
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
 
 OUTPUT_ROOT_PATH = Path("output")
 

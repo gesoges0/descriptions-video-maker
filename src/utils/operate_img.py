@@ -1,11 +1,12 @@
 import copy
 import os.path
 import random
+from dataclasses import dataclass
+from pathlib import Path
+from typing import List, NamedTuple, Tuple, Union
+
 import cv2
 import numpy as np
-from typing import Tuple, Union, NamedTuple, List
-from pathlib import Path
-from dataclasses import dataclass
 from PIL import Image, ImageDraw, ImageFont
 
 
