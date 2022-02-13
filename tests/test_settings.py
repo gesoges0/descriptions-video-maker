@@ -1,6 +1,6 @@
 from pathlib import Path
 
-project_json_paths_dir: Path = Path('projects')
+project_json_paths_dir: Path = Path("projects")
 
 
 def test_project_jsons():
@@ -9,7 +9,7 @@ def test_project_jsons():
     """
     for project_dir in project_json_paths_dir.iterdir():
         project_name: str = project_dir.name
-        project_json: Path = project_dir / 'projectX.json'
+        project_json: Path = project_dir / "projectX.json"
         pass
 
 
@@ -19,7 +19,7 @@ def test_descriptions_tsv():
     """
     for project_dir in project_json_paths_dir.iterdir():
         project_name: str = project_dir.name
-        project_descriptions_tsv: Path = project_dir / 'descriptions.tsv'
+        project_descriptions_tsv: Path = project_dir / "descriptions.tsv"
         pass
 
 

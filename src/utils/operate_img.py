@@ -27,7 +27,7 @@ def get_random_blank_image(height: int, width: int):
 def get_synthetic_image(under_image, over_image, yx: Tuple[int, int]):
     y, x = yx
     over_image_height, over_image_width = over_image.shape[0], over_image.shape[1]
-    under_image[y: y + over_image_height, x: x + over_image_width] = over_image
+    under_image[y : y + over_image_height, x : x + over_image_width] = over_image
     return under_image
 
 
@@ -38,15 +38,17 @@ def write_image(image, image_path: Path):
 def get_h_concatenate_image(left_image, right_image):
     left_image_height, left_image_width = left_image.shape[:2]
     right_image_height, right_image_width = right_image.shape[:2]
-    assert left_image_height == right_image_height, f'{left_image_height} != {right_image_height}'
+    assert (
+        left_image_height == right_image_height
+    ), f"{left_image_height} != {right_image_height}"
     return cv2.hconcat([left_image, right_image])
 
 
 def read_image(image_path: Union[Path, str]):
     if type(image_path) == Path:
-        assert image_path.exists(), f'{image_path} does not exists'
+        assert image_path.exists(), f"{image_path} does not exists"
     if type(image_path) == str:
-        assert os.path.exists(image_path), f'{image_path} does not exists'
+        assert os.path.exists(image_path), f"{image_path} does not exists"
     image = cv2.imread(str(image_path))
     return image
 
@@ -75,7 +77,7 @@ def pillow_to_cv2(pil_image):
 
 
 class Font(NamedTuple):
-    font: str = 'kalimati.ttf'
+    font: str = "kalimati.ttf"
     size: int = 50
 
 
@@ -90,7 +92,7 @@ class TextOnImage:
         rows = []
         n = 9
         for i in range(0, len(self.text), n):
-            row = self.text[i: i+n]
+            row = self.text[i : i + n]
             rows.append(row)
         self._rows = rows
 
@@ -98,7 +100,9 @@ class TextOnImage:
         """
         :return:
         """
-        font = ImageFont.truetype(font=self.font_object.font, size=self.font_object.size)
+        font = ImageFont.truetype(
+            font=self.font_object.font, size=self.font_object.size
+        )
         pil_image = cv2_to_pillow(self.image)
         image_draw = ImageDraw.Draw(pil_image)
         for i, row in enumerate(self._rows):

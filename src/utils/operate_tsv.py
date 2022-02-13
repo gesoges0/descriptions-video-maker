@@ -10,9 +10,9 @@ def read_tsv(tsv_path: Path, read_header: bool = True) -> Iterable[List[str]]:
     :param read_header:
     :return:
     """
-    assert tsv_path.exists(), f'{tsv_path} does not exists !'
-    with open(tsv_path, 'r') as f:
-        reader = csv.reader(f, delimiter='\t')
+    assert tsv_path.exists(), f"{tsv_path} does not exists !"
+    with open(tsv_path, "r") as f:
+        reader = csv.reader(f, delimiter="\t")
         header = next(reader)
         if read_header:
             yield header
@@ -26,8 +26,8 @@ def write_tsv(tsv_path: Path, rows: List[List[Any]]) -> None:
     :param rows:
     :return:
     """
-    with open(tsv_path, 'w') as f:
-        writer = csv.writer(f, delimiter='\t', lineterminator='\n')
+    with open(tsv_path, "w") as f:
+        writer = csv.writer(f, delimiter="\t", lineterminator="\n")
         for row in rows:
             writer.writerow(row)
 
@@ -38,8 +38,8 @@ def add_tsv(tsv_path: Path, row: List[Any]) -> None:
     :param row:
     :return:
     """
-    with open(tsv_path, 'a') as f:
-        writer = csv.writer(f, delimiter='\t', lineterminator='\n')
+    with open(tsv_path, "a") as f:
+        writer = csv.writer(f, delimiter="\t", lineterminator="\n")
         writer.writerow(row)
 
 
@@ -49,10 +49,10 @@ def write_tsv_including_json(tsv_path: Path, rows: List[List[Any]]) -> None:
     :param rows:
     :return:
     """
-    with open(tsv_path, 'w') as f:
+    with open(tsv_path, "w") as f:
         for row in rows:
-            f.write('\t'.join(map(str, row)))
-            f.write('\n')
+            f.write("\t".join(map(str, row)))
+            f.write("\n")
 
 
 def add_tsv_including_json(tsv_path: Path, row: List[Any]) -> None:
@@ -61,9 +61,9 @@ def add_tsv_including_json(tsv_path: Path, row: List[Any]) -> None:
     :param row:
     :return:
     """
-    with open(tsv_path, 'a') as f:
-        f.write('\t'.join(map(str, row)))
-        f.write('\n')
+    with open(tsv_path, "a") as f:
+        f.write("\t".join(map(str, row)))
+        f.write("\n")
 
 
 def get_header_from_tsv(tsv_path: Path) -> List[str]:

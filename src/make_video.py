@@ -25,25 +25,39 @@ class Video:
         if self.project_dir.output_dir.tmp.exists():
             shutil.rmtree(self.project_dir.output_dir.tmp)
 
-
-    def make(self, encoding_type='.mp4'):
+    def make(self, encoding_type=".mp4"):
         # make tmp dir
         self.make_tmp_dir()
 
         # read concatenated image
-        concatenated_image = read_image(image_path=self.project_dir.output_dir.concatenated_image)
+        concatenated_image = read_image(
+            image_path=self.project_dir.output_dir.concatenated_image
+        )
 
         # focus frame and slide right
         concatenated_image_width = concatenated_image.shape[1]
         for x in range(concatenated_image_width - self._width):
-            captured_image = concatenated_image[0: self._height, x: x + self._width]
-            output_path = self.project_dir.output_dir.tmp / f'{x:04}.png'
+            captured_image = concatenated_image[0 : self._height, x : x + self._width]
+            output_path = self.project_dir.output_dir.tmp / f"{x:04}.png"
             write_image(image=captured_image, image_path=output_path)
-        print('output tmp dir')
+        print("output tmp dir")
 
         # 連番画像 -> ffmpeg
-        cmd = ['ffmpeg', '-r', '30', '-i', f'{str(self.project_dir.output_dir.tmp)}/%04d.png', '-vcodec', 'libx264', '-pix_fmt', 'yuv420p', '-r', '60', f'{str(self.project_dir.output_dir.video)}/output.mp4']
-        print(' '.join(cmd))
+        cmd = [
+            "ffmpeg",
+            "-r",
+            "30",
+            "-i",
+            f"{str(self.project_dir.output_dir.tmp)}/%04d.png",
+            "-vcodec",
+            "libx264",
+            "-pix_fmt",
+            "yuv420p",
+            "-r",
+            "60",
+            f"{str(self.project_dir.output_dir.video)}/output.mp4",
+        ]
+        print(" ".join(cmd))
         subprocess.run(cmd)
 
         # convert mp4 to gif
@@ -52,13 +66,29 @@ class Video:
         # subprocess.run(cmd)
 
         # ffmpeg -i input.mov -vf "palettegen" -y palette.png
-        cmd = ['ffmpeg', '-i', f'{str(self.project_dir.output_dir.video / "output.mp4")}', '-vf', 'palettegen', '-y', f'{str(self.project_dir.output_dir.video / "palette.png")}']
-        print(' '.join(cmd))
+        cmd = [
+            "ffmpeg",
+            "-i",
+            f'{str(self.project_dir.output_dir.video / "output.mp4")}',
+            "-vf",
+            "palettegen",
+            "-y",
+            f'{str(self.project_dir.output_dir.video / "palette.png")}',
+        ]
+        print(" ".join(cmd))
         subprocess.run(cmd)
 
         # ffmpeg -i input.mov -i palette.png -lavfi "fps=12,scale=900:-1:flags=lanczos [x]; [x][1:v] paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -y output.gif
-        cmd = ['ffmpeg', '-i', f'{str(self.project_dir.output_dir.video / "output.mp4")}', '-i', f'{str(self.project_dir.output_dir.video / "palette.png")}', '-y', f'{str(self.project_dir.output_dir.video / "output.gif")}']
-        print(' '.join(cmd))
+        cmd = [
+            "ffmpeg",
+            "-i",
+            f'{str(self.project_dir.output_dir.video / "output.mp4")}',
+            "-i",
+            f'{str(self.project_dir.output_dir.video / "palette.png")}',
+            "-y",
+            f'{str(self.project_dir.output_dir.video / "output.gif")}',
+        ]
+        print(" ".join(cmd))
         subprocess.run(cmd)
 
         # delete tmp dir
