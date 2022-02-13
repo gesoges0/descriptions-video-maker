@@ -10,11 +10,15 @@ class OutputDir:
     _concat: Path = None
     _each: Path = None
     _video: Path = None
+    _tmp: Path = None
+    _concatenated_image: Path = None
 
     def __post_init__(self):
         self._each = self.output_dir_path / 'each'
         self._concat = self.output_dir_path / 'concat'
         self._video = self.output_dir_path / 'video'
+        self._tmp = self._video / 'tmp'
+        self._concatenated_image = self._concat / 'output.png'
 
     @property
     def concat(self):
@@ -28,6 +32,13 @@ class OutputDir:
     def video(self):
         return self._video
 
+    @property
+    def tmp(self):
+        return self._tmp
+
+    @property
+    def concatenated_image(self):
+        return self._concatenated_image
 
 @dataclass
 class ProjectDir:

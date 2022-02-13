@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 from src.make_description_images import make_description_images
+from src.make_video import make_video
 
 
 if __name__ == '__main__':
@@ -22,11 +23,10 @@ if __name__ == '__main__':
     # make video from a concatenated image
     # ex: python manage.py make-video -p projectX
     # ex: python manage.py make-video --project projectX --output sample.mp4
-    # parser_make_video = subparsers.add_parser('make-video', help='make video from concatenated image')
-    # parser_make_video.add_argument('-p', '--project', type=str, help='project name')
-    # parser_concat_images.add_argument('-o', '--output', type=str, help='output name')
-    # parser_concat_images.add_argument('-t', '--output', default='mp4', type=str, help='output name')
-    # parser_make_video.set_defaults(func=make_video)
+    parser_make_video = subparsers.add_parser('make-video', help='make video from concatenated image')
+    parser_make_video.add_argument('-p', '--project', type=str, help='project name')
+    parser_make_video.add_argument('-t', '--type', default='mp4', type=str, help='output name')
+    parser_make_video.set_defaults(func=make_video)
 
     args = parser.parse_args()
     args.func(args)

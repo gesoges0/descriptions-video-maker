@@ -89,9 +89,12 @@ pytest
 python manage.py make-images --project projectX
 ```
 
+![output](output/projectX/concat/output.png "output")
+
 #### make video
 ```commandline
 python manage.py make-video --project projectX
 ```
 
-![output](output/projectX/concat/output.png "output")
+![output](output/projectX/video/output.gif)
+
