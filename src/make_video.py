@@ -47,7 +47,17 @@ class Video:
         subprocess.run(cmd)
 
         # convert mp4 to gif
-        cmd = ['ffmpeg', '-i', f'{str(self.project_dir.output_dir.video / "output.mp4")}', f'{str(self.project_dir.output_dir.video / "output.gif")}']
+        # cmd = ['ffmpeg', '-i', f'{str(self.project_dir.output_dir.video / "output.mp4")}', f'{str(self.project_dir.output_dir.video / "output.gif")}']
+        # print(' '.join(cmd))
+        # subprocess.run(cmd)
+
+        # ffmpeg -i input.mov -vf "palettegen" -y palette.png
+        cmd = ['ffmpeg', '-i', f'{str(self.project_dir.output_dir.video / "output.mp4")}', '-vf', 'palettegen', '-y', f'{str(self.project_dir.output_dir.video / "palette.png")}']
+        print(' '.join(cmd))
+        subprocess.run(cmd)
+
+        # ffmpeg -i input.mov -i palette.png -lavfi "fps=12,scale=900:-1:flags=lanczos [x]; [x][1:v] paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -y output.gif
+        cmd = ['ffmpeg', '-i', f'{str(self.project_dir.output_dir.video / "output.mp4")}', '-i', f'{str(self.project_dir.output_dir.video / "palette.png")}', '-y', f'{str(self.project_dir.output_dir.video / "output.gif")}']
         print(' '.join(cmd))
         subprocess.run(cmd)
 
