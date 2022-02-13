@@ -33,49 +33,57 @@ python make-video --project projectX --type mp4
       "image_layer": {
         "description_type": "image",
         "height": [
-          0,
-          320
+          0, 320
         ],
         "width": [
-          0,
-          320
+          0, 320
+        ],
+        "background_color": [
+          0, 0, 0
         ]
       },
       "title_layer": {
         "description_type": "string",
         "height": [
-          320,
-          440
+          320, 440
         ],
         "width": [
-          0,
-          320
+          0, 320
+        ],
+        "background_color": [
+          33, 33, 33
         ]
       },
       "description_layer": {
         "description_type": "string",
         "height": [
-          440,
-          780
+          440, 780
         ],
         "width": [
-          0,
-          320
+          0, 320
+        ],
+        "background_color": [
+          0, 0, 0
         ]
       }
     }
-  },
-  "margin_setting": 0
+  }
 }
 ```
 
 #### description.tsv
 ```commandline
 image_layer	title_layer	description_layer
-tests/mock-imgs/ai.png	AI	I want AI to change my job...
-tests/mock-imgs/aisowarai.png	Fake Smile	Endless Work...
-tests/mock-imgs/shuden.png	Last Train	Stay overnight at the office...
-tests/mock-imgs/shuden.png	Last Train	Stay overnight at the office...
+projects/projectX/input/ai.png	TITLE_A	AAAAA AAAAA AAAAAAA AAAAA
+projects/projectX/input/aisowarai.png	TITLE_B	BBBBBBBB BBBBBBBBBBBBBBBB BBBBB
+projects/projectX/input/shuden.png	TITLE_C	CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+projects/projectX/input/shuden.png	TITLE_D	DDDDDD DD DDDD DDDDDDDDDD
+projects/projectX/input/shuden.png	TITLE_E	EE EEEEE EEE EEEEEEEEE
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+
 ```
 
 #### test
@@ -96,5 +104,5 @@ python manage.py make-images --project projectX
 python manage.py make-video --project projectX
 ```
 
-![output](https://github.com/gesoges0/yokonagashi-video-maker/blob/feature/make-video/output/projectX/video/output.mp4)
+https://github.com/gesoges0/yokonagashi-video-maker/blob/main/output/projectX/video/output.mp4
 
