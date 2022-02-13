@@ -11,6 +11,15 @@ vim projects/projectX/setting.json
 
 # Edit Descriptions
 vim projects/projectX
+
+# test json and tsv
+pytest
+
+# make each image and a concatenated image
+python make-images --project projectX
+
+# make video as .mp4
+python make-video --project projectX --type mp4 
 ```
 
 ### example

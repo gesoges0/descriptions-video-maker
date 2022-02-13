@@ -10,7 +10,8 @@ from src.utils.operate_img import (
     write_image,
     get_h_concatenate_image,
     read_image,
-    resize_image
+    resize_image,
+    put_text_on_image,
 )
 from src.utils import LAYER_JSON_PATH, DESCRIPTION_TSV_PATH
 from pathlib import Path
@@ -60,8 +61,8 @@ class StringLayer:
     _img = None
 
     def __post_init__(self):
-        # mock
         self._img = get_blank_image(self.height, self.width, rgb=self.background_color)
+        self._img = put_text_on_image(self._img, self.string)
 
 
 @dataclass

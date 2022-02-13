@@ -1,9 +1,12 @@
+import copy
 import os.path
 import random
 import cv2
 import numpy as np
-from typing import Tuple, Union
+from typing import Tuple, Union, NamedTuple, List
 from pathlib import Path
+from dataclasses import dataclass
+from PIL import Image, ImageDraw, ImageFont
 
 
 def get_blank_image(height: int, width: int, rgb: Tuple[int, int, int] = None):
@@ -50,3 +53,54 @@ def read_image(image_path: Union[Path, str]):
 
 def resize_image(image, height: int, width: int):
     return cv2.resize(image, dsize=(height, width))
+
+
+def put_text_on_image(image, text):
+    text_on_image = TextOnImage(image, text)
+    text_on_image.put_text_on_image()
+    return text_on_image.image
+
+
+def cv2_to_pillow(image: np.ndarray):
+    # rgb image
+    if image.shape[2] == 3:
+        res = cv2.cvtColor(image.astype(np.float32), cv2.COLOR_BGR2RGB)
+    return Image.fromarray(res.astype(np.uint8))
+
+
+def pillow_to_cv2(pil_image):
+    res = np.array(pil_image, dtype=np.uint8)
+    res = cv2.cvtColor(res, cv2.COLOR_RGB2BGR)
+    return res
+
+
+class Font(NamedTuple):
+    font: str = 'kalimati.ttf'
+    size: int = 50
+
+
+@dataclass
+class TextOnImage:
+    image: np.ndarray
+    text: str
+    font_object: str = Font()
+    _rows: List[str] = None
+
+    def __post_init__(self):
+        rows = []
+        n = 9
+        for i in range(0, len(self.text), n):
+            row = self.text[i: i+n]
+            rows.append(row)
+        self._rows = rows
+
+    def put_text_on_image(self):
+        """
+        :return:
+        """
+        font = ImageFont.truetype(font=self.font_object.font, size=self.font_object.size)
+        pil_image = cv2_to_pillow(self.image)
+        image_draw = ImageDraw.Draw(pil_image)
+        for i, row in enumerate(self._rows):
+            image_draw.text((10, 10 + 40 * i), row, fill=(255, 255, 255), font=font)
+        self.image = pillow_to_cv2(pil_image)
