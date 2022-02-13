@@ -22,8 +22,8 @@ python make-images --project projectX
 python make-video --project projectX
 ```
 
-### example
-#### setting.json
+## example
+### setting.json
 ```commandline
 {
   "description_image": {
@@ -71,7 +71,7 @@ python make-video --project projectX
 }
 ```
 
-#### description.tsv
+### description.tsv
 ```commandline
 image_layer	title_layer	description_layer
 projects/projectX/input/ai.png	TITLE_A	AAAAA AAAAA AAAAAAA AAAAA
@@ -86,20 +86,20 @@ projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
 
 ```
 
-#### test
+### test
 test projectX/setting.json and projectX/description.tsv
 ```commandline
 pytest
 ```
 
-#### make images
+### make images
 ```commandline
 python manage.py make-images --project projectX
 ```
 
 ![output](output/projectX/concat/output.png "output")
 
-#### make video
+### make video
 ```commandline
 python manage.py make-video --project projectX
 ```
