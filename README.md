@@ -104,5 +104,6 @@ python manage.py make-images --project projectX
 python manage.py make-video --project projectX
 ```
 
-https://github.com/gesoges0/yokonagashi-video-maker/blob/main/output/projectX/video/output.mp4
+https://user-images.githubusercontent.com/33025417/153738612-d905eea6-5dad-48f7-a6e7-c526754b8534.mp4
+
 
