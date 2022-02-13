@@ -1,10 +1,10 @@
 image_layer	title_layer	description_layer
-tests/mock-imgs/ai.png	TITLE_A	AAAAA AAAAA AAAAAAA AAAAA
-tests/mock-imgs/aisowarai.png	TITLE_B	BBBBBBBB BBBBBBBBBBBBBBBB BBBBB
-tests/mock-imgs/shuden.png	TITLE_C	CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-tests/mock-imgs/shuden.png	TITLE_D	DDDDDD DD DDDD DDDDDDDDDD
-tests/mock-imgs/shuden.png	TITLE_E	EE EEEEE EEE EEEEEEEEE
-tests/mock-imgs/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
-tests/mock-imgs/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
-tests/mock-imgs/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
-tests/mock-imgs/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+projects/projectX/input/ai.png	TITLE_A	AAAAA AAAAA AAAAAAA AAAAA
+projects/projectX/input/aisowarai.png	TITLE_B	BBBBBBBB BBBBBBBBBBBBBBBB BBBBB
+projects/projectX/input/shuden.png	TITLE_C	CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+projects/projectX/input/shuden.png	TITLE_D	DDDDDD DD DDDD DDDDDDDDDD
+projects/projectX/input/shuden.png	TITLE_E	EE EEEEE EEE EEEEEEEEE
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
+projects/projectX/input/shuden.png	TITLE_F	FFFFF FFFFFFF FFF FFFFFFF
