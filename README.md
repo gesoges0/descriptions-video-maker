@@ -1,4 +1,5 @@
-# Descriptions Video as Code
+# Descriptions Video Maker
+This is "Video as Code" Project.
 
 ## usage
 ### Make Project File
@@ -23,7 +24,7 @@ python make-video --project projectX
 ```
 
 ## example
-### setting.json
+### [setting.json](https://github.com/gesoges0/descriptions-video-maker/blob/main/projects/projectX/setting.json)
 ```commandline
 {
   "description_image": {
@@ -71,7 +72,7 @@ python make-video --project projectX
 }
 ```
 
-### description.tsv
+### [description.tsv](https://github.com/gesoges0/descriptions-video-maker/blob/main/projects/projectX/descriptions.tsv)
 ```commandline
 image_layer	title_layer	description_layer
 projects/projectX/input/ai.png	TITLE_A	AAAAA AAAAA AAAAAAA AAAAA
