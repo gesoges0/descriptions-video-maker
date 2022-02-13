@@ -19,7 +19,7 @@ pytest
 python make-images --project projectX
 
 # make video as .mp4
-python make-video --project projectX --type mp4 
+python make-video --project projectX
 ```
 
 ### example
