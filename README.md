@@ -106,3 +106,11 @@ python manage.py make-video --project projectX
 ```
 
 https://user-images.githubusercontent.com/33025417/153738612-d905eea6-5dad-48f7-a6e7-c526754b8534.mp4
+
+
+# other example
+```commandline
+python manage.py make-images --project projectY
+python manage.py make-video --project projectY
+```
+![output](output/projectY/concat/output.png "output")

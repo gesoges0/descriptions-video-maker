@@ -1,0 +1,44 @@
+{
+  "description_image": {
+    "height": 780,
+    "width": 320,
+    "layers": {
+      "title_layer": {
+        "description_type": "string",
+        "height": [
+          0, 200
+        ],
+        "width": [
+          0, 320
+        ],
+        "background_color": [
+          75, 0, 130
+        ]
+      },
+      "image_layer": {
+        "description_type": "image",
+        "height": [
+          200, 520
+        ],
+        "width": [
+          0, 320
+        ],
+        "background_color": [
+          0, 0, 0
+        ]
+      },
+      "description_layer": {
+        "description_type": "string",
+        "height": [
+          520, 780
+        ],
+        "width": [
+          0, 320
+        ],
+        "background_color": [
+          250, 128, 114
+        ]
+      }
+    }
+  }
+}
