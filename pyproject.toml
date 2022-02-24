@@ -2,7 +2,7 @@
 name = "yokonagashi-video-maker"
 version = "0.1.0"
 description = ""
-authors = ["elasticnet12345 <elasticnet1995@gmail.com>"]
+authors = ["gesogeso"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
