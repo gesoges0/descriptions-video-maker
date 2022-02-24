@@ -34,22 +34,27 @@ class TestJson:
                 setting_dict: Dict[str, Any] = json.load(f)
                 total_height: int = setting_dict["description_image"]["height"]
                 heights: List[Tuple[int, int]] = []
-                for layer, layer_dict in setting_dict["description_image"]["layers"].items():
+                for layer, layer_dict in setting_dict["description_image"][
+                    "layers"
+                ].items():
                     height: Tuple[int, int] = tuple(layer_dict["height"])
                     heights.append(height)
             heights.sort()
 
             # check coordinates
             for i, (y1, y2) in enumerate(heights):
-                assert y1 < y2, f'[JSON: {json_path}] ({y1, y2}) is not y1 < y2'
+                assert y1 < y2, f"[JSON: {json_path}] ({y1, y2}) is not y1 < y2"
 
             # duplicate check
             for i in range(len(heights) - 1):
-                assert heights[i][1] <= heights[i+1][0], f'[JSON:{json_path}] {heights[i]}, {heights[i+1]} is Duplicate'
+                assert (
+                    heights[i][1] <= heights[i + 1][0]
+                ), f"[JSON:{json_path}] {heights[i]}, {heights[i+1]} is Duplicate"
 
             # total height
-            assert heights[-1][1] <= total_height, \
-                f'[JSON: {json_path}] total_height: {total_height} < sum of layers height: {heights[-1][1]}'
+            assert (
+                heights[-1][1] <= total_height
+            ), f"[JSON: {json_path}] total_height: {total_height} < sum of layers height: {heights[-1][1]}"
 
 
 class TestJsonAndTsv:
