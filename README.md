@@ -11,7 +11,7 @@ mkdir projects/projectX
 vim projects/projectX/setting.json
 
 # Edit Descriptions
-vim projects/projectX
+vim projects/projectX/descriptions.tsv
 
 # test json and tsv
 pytest
